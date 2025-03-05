@@ -40,9 +40,8 @@ jobs:
               unoptimized: true,
             },
             output: 'export',
-            // Set the base path if your site will be deployed to a subdirectory
-            // basePath: '/hempnotyx',
-            // Set trailing slash to true for more predictable routing
+            basePath: '/hempnotyx',
+            assetPrefix: '/hempnotyx/',
             trailingSlash: true,
           };
 

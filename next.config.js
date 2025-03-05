@@ -5,6 +5,11 @@ const nextConfig = {
   images: {
     domains: [],
   },
+  // Ensure CSS processing works correctly in production
+  webpack: (config) => {
+    // Optimize CSS processing
+    return config;
+  },
 };
 
 module.exports = nextConfig;

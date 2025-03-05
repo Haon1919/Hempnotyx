@@ -6,7 +6,15 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
     './src/admin/**/*.{js,ts,jsx,tsx,mdx}',
     './src/delivery/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  mode: 'jit',
+  purge: {
+    enabled: process.env.NODE_ENV === 'production',
+    content: [
+      './src/**/*.{js,ts,jsx,tsx,mdx}',
+    ],
+  },
   theme: {
     extend: {
       colors: {

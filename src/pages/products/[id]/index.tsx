@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { doc, getDoc } from '@/lib/firebase';
 import { Product } from '@/types';
 import { useCart } from '@/context/CartContext';
 
@@ -26,15 +25,18 @@ export default function ProductDetail() {
       try {
         setLoading(true);
         
-        // Fetch product
-        const productDoc = await getDoc(doc(db, 'products', id as string));
+        const productDoc = await getDoc(doc(null, 'products', id as string));
+        
+        console.log("Fetching product with ID:", id);
+        console.log("productDoc exists:", productDoc.exists());
+        console.log("productDoc data:", productDoc.data());
         
         if (!productDoc.exists()) {
           setError('Product not found');
           return;
         }
         
-        const productData = { id: productDoc.id, ...productDoc.data() } as Product;
+        const productData = { id: id as string, ...productDoc.data() } as Product;
         setProduct(productData);
       } catch (err: any) {
         console.error('Error fetching product:', err);

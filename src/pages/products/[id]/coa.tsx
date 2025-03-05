@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Image from 'next/image';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db, doc, getDoc } from '@/lib/firebase';
 import { Product, COA } from '@/types';
 
 export default function ProductCOA() {
@@ -22,30 +21,34 @@ export default function ProductCOA() {
       try {
         setLoading(true);
         
-        // Fetch product
-        const productDoc = await getDoc(doc(db, 'products', id as string));
+        // Use db properly with the mock implementation
+        const productRef = doc(db, 'products', id as string);
+        const productDoc = await getDoc(productRef);
+        
+        console.log("Fetching product for COA with ID:", id);
+        console.log("productDoc exists:", productDoc.exists());
+        console.log("productDoc data:", productDoc.data());
         
         if (!productDoc.exists()) {
           setError('Product not found');
           return;
         }
         
-        const productData = { id: productDoc.id, ...productDoc.data() } as Product;
+        // Use id from query, data from productDoc
+        const productData = {
+          id: id as string,
+          ...productDoc.data()
+        } as Product;
+        
         setProduct(productData);
         
-        // If product has a COA, fetch it
-        if (productData.coaUrl) {
-          // In a real app, you might store COA documents in a separate collection
-          // Here we'll check if there's a COA document for this product
-          const coaDoc = await getDoc(doc(db, 'coas', id as string));
-          
-          if (coaDoc.exists()) {
-            setCoa({ id: coaDoc.id, ...coaDoc.data() } as COA);
-          }
+        // Check if COA URL exists
+        if (!productData.coaUrl) {
+          setError('No Certificate of Analysis available for this product');
         }
       } catch (err: any) {
         console.error('Error fetching product or COA:', err);
-        setError('Failed to load product information');
+        setError('Failed to load Certificate of Analysis');
       } finally {
         setLoading(false);
       }
@@ -140,23 +143,23 @@ export default function ProductCOA() {
         <div className="p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-4">Certificate of Analysis (COA)</h2>
           
-          {coa ? (
+          {product.coaUrl ? (
             <div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                 <div>
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Product Information</h3>
                   <dl className="grid grid-cols-2 gap-x-4 gap-y-2">
                     <dt className="text-sm font-medium text-gray-500">Batch Number</dt>
-                    <dd className="text-sm text-gray-900">{coa.batchNumber}</dd>
+                    <dd className="text-sm text-gray-900">{coa?.batchNumber}</dd>
                     
                     <dt className="text-sm font-medium text-gray-500">Testing Lab</dt>
-                    <dd className="text-sm text-gray-900">{coa.labName}</dd>
+                    <dd className="text-sm text-gray-900">{coa?.labName}</dd>
                     
                     <dt className="text-sm font-medium text-gray-500">Test Date</dt>
-                    <dd className="text-sm text-gray-900">{new Date(coa.testDate).toLocaleDateString()}</dd>
+                    <dd className="text-sm text-gray-900">{new Date(coa?.testDate).toLocaleDateString()}</dd>
                     
                     <dt className="text-sm font-medium text-gray-500">Expiry Date</dt>
-                    <dd className="text-sm text-gray-900">{new Date(coa.expirationDate).toLocaleDateString()}</dd>
+                    <dd className="text-sm text-gray-900">{new Date(coa?.expirationDate).toLocaleDateString()}</dd>
                   </dl>
                 </div>
                 
@@ -165,18 +168,18 @@ export default function ProductCOA() {
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm font-medium text-gray-900">THC</span>
-                      <span className="text-sm font-medium text-gray-900">{coa.thcContent.toFixed(2)}%</span>
+                      <span className="text-sm font-medium text-gray-900">{coa?.thcContent.toFixed(2)}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div className="bg-green-600 h-2.5 rounded-full" style={{ width: `${Math.min(coa.thcContent * 3, 100)}%` }}></div>
+                      <div className="bg-green-600 h-2.5 rounded-full" style={{ width: `${Math.min(coa?.thcContent * 3, 100)}%` }}></div>
                     </div>
                     
                     <div className="flex justify-between items-center mt-4 mb-2">
                       <span className="text-sm font-medium text-gray-900">CBD</span>
-                      <span className="text-sm font-medium text-gray-900">{coa.cbdContent.toFixed(2)}%</span>
+                      <span className="text-sm font-medium text-gray-900">{coa?.cbdContent.toFixed(2)}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${Math.min(coa.cbdContent * 3, 100)}%` }}></div>
+                      <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${Math.min(coa?.cbdContent * 3, 100)}%` }}></div>
                     </div>
                   </div>
                 </div>
@@ -185,7 +188,7 @@ export default function ProductCOA() {
               <div className="border-t border-gray-200 pt-8">
                 <h3 className="text-lg font-medium text-gray-900 mb-4">Full Certificate</h3>
                 
-                {coa.fileUrl ? (
+                {coa?.fileUrl ? (
                   <div className="flex flex-col items-center">
                     <div className="w-full max-w-md border border-gray-300 rounded-lg overflow-hidden">
                       <div className="aspect-w-4 aspect-h-5 bg-gray-100 flex items-center justify-center">

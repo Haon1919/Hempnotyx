@@ -105,7 +105,7 @@ export default function Products() {
           
           // Build categories from direct mock data
           const directCategoriesSet = new Set<string>();
-          directProducts.forEach(product => {
+          directProducts.forEach((product: { category?: string }) => {
             if (product.category) {
               directCategoriesSet.add(product.category);
             }

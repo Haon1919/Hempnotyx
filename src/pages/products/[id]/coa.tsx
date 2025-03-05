@@ -156,10 +156,14 @@ export default function ProductCOA() {
                     <dd className="text-sm text-gray-900">{coa?.labName}</dd>
                     
                     <dt className="text-sm font-medium text-gray-500">Test Date</dt>
-                    <dd className="text-sm text-gray-900">{new Date(coa?.testDate).toLocaleDateString()}</dd>
+                    <dd className="text-sm text-gray-900">
+                      {coa?.testDate ? new Date(coa.testDate).toLocaleDateString() : 'N/A'}
+                    </dd>
                     
                     <dt className="text-sm font-medium text-gray-500">Expiry Date</dt>
-                    <dd className="text-sm text-gray-900">{new Date(coa?.expirationDate).toLocaleDateString()}</dd>
+                    <dd className="text-sm text-gray-900">
+                      {coa?.expirationDate ? new Date(coa.expirationDate).toLocaleDateString() : 'N/A'}
+                    </dd>
                   </dl>
                 </div>
                 
@@ -168,18 +172,28 @@ export default function ProductCOA() {
                   <div className="bg-gray-50 p-4 rounded-lg">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm font-medium text-gray-900">THC</span>
-                      <span className="text-sm font-medium text-gray-900">{coa?.thcContent.toFixed(2)}%</span>
+                      <span className="text-sm font-medium text-gray-900">
+                        {coa?.thcContent !== undefined ? coa.thcContent.toFixed(2) : '0.00'}%
+                      </span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div className="bg-green-600 h-2.5 rounded-full" style={{ width: `${Math.min(coa?.thcContent * 3, 100)}%` }}></div>
+                      <div 
+                        className="bg-green-600 h-2.5 rounded-full" 
+                        style={{ width: `${coa?.thcContent !== undefined ? Math.min(coa.thcContent * 3, 100) : 0}%` }}
+                      ></div>
                     </div>
                     
                     <div className="flex justify-between items-center mt-4 mb-2">
                       <span className="text-sm font-medium text-gray-900">CBD</span>
-                      <span className="text-sm font-medium text-gray-900">{coa?.cbdContent.toFixed(2)}%</span>
+                      <span className="text-sm font-medium text-gray-900">
+                        {coa?.cbdContent !== undefined ? coa.cbdContent.toFixed(2) : '0.00'}%
+                      </span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2.5">
-                      <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${Math.min(coa?.cbdContent * 3, 100)}%` }}></div>
+                      <div 
+                        className="bg-blue-600 h-2.5 rounded-full" 
+                        style={{ width: `${coa?.cbdContent !== undefined ? Math.min(coa.cbdContent * 3, 100) : 0}%` }}
+                      ></div>
                     </div>
                   </div>
                 </div>

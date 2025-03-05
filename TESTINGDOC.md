@@ -17,14 +17,15 @@ Before executing this testing plan, ensure:
 
 | Route | Expected Behavior | Test Steps | Status |
 |-------|------------------|------------|--------|
-| `/` (Home) | Home page loads with featured products | 1. Navigate to root URL<br>2. Verify hero section, featured products (should see "Purple Kush Hemp Flower", "Sour Space Candy", "Full Spectrum CBD Oil 1000mg", and "CBD Gummies 25mg"), and footer display correctly | ⬜ |
+| `/` (Home) | Home page loads with featured products | 1. Navigate to root URL<br>2. Verify hero section, featured products (should see "Purple Kush Hemp Flower" and "Full Spectrum CBD Oil 1000mg"), and footer display correctly | ⬜ |
 | `/login` | Login form displays properly | 1. Navigate to /login<br>2. Verify form fields and login button display correctly | ⬜ |
 | `/signup` | Signup form displays properly | 1. Navigate to /signup<br>2. Verify form fields and signup button display correctly | ⬜ |
-| `/products` | Product listing page displays correctly | 1. Navigate to /products<br>2. Verify all 5 products are listed (Hemp Flowers, CBD Oils, Gummies, Cream)<br>3. Test filtering and sorting if implemented | ⬜ |
+| `/products` | Product listing page displays correctly | 1. Navigate to /products<br>2. Verify all products are listed (Purple Kush Hemp Flower, Full Spectrum CBD Oil, CBD Gummies)<br>3. Test filtering and sorting if implemented | ⬜ |
 | `/products/hemp-flower-1` | Individual product page shows details | 1. Navigate to /products/hemp-flower-1<br>2. Verify "Purple Kush Hemp Flower" details display: $29.99, 18.5% CBD, 0.2% THC, indica strain | ⬜ |
-| `/products/hemp-flower-2` | Product page shows sale price | 1. Navigate to /products/hemp-flower-2<br>2. Verify "Sour Space Candy" shows regular price ($24.99) and sale price ($19.99) | ⬜ |
+| `/products/cbd-oil-1` | Product page shows sale price | 1. Navigate to /products/cbd-oil-1<br>2. Verify "Full Spectrum CBD Oil 1000mg" shows regular price ($69.99) and sale price ($59.99) | ⬜ |
+| `/products/gummies-1` | Product page shows details | 1. Navigate to /products/gummies-1<br>2. Verify "CBD Gummies 25mg" shows price of $24.99 | ⬜ |
 | `/products/hemp-flower-1/coa` | Certificate of Analysis displays | 1. Navigate to /products/hemp-flower-1/coa<br>2. Verify the COA displays correctly with URL '/coa/hemp-flower-1.pdf' | ⬜ |
-| `/cart` | Cart shows added items | 1. Add "Sour Space Candy" to cart<br>2. Navigate to /cart<br>3. Verify cart shows 1 "Sour Space Candy" at $19.99, matches cart-user123 data | ⬜ |
+| `/cart` | Cart shows added items | 1. Add "Full Spectrum CBD Oil 1000mg" to cart<br>2. Navigate to /cart<br>3. Verify cart shows 1 "Full Spectrum CBD Oil 1000mg" at $59.99 | ⬜ |
 
 ## Authentication Testing
 
@@ -90,12 +91,12 @@ Test each protected route both when logged in with appropriate permissions and w
 
 | Test Case | Expected Behavior | Test Steps | Status |
 |-----------|------------------|------------|--------|
-| View cart | Cart displays correctly | 1. Login as user@example.com<br>2. Navigate to /cart<br>3. Verify cart shows "Sour Space Candy" at $19.99 | ⬜ |
-| Add to cart | Item is added to cart | 1. Navigate to /products/hemp-flower-1<br>2. Add "Purple Kush Hemp Flower" to cart<br>3. Verify cart now shows both products | ⬜ |
-| Update quantity | Cart updates quantity | 1. In cart, update "Sour Space Candy" quantity to 2<br>2. Verify subtotal updates to $39.98 | ⬜ |
+| View cart | Cart displays correctly | 1. Login as user@example.com<br>2. Navigate to /cart<br>3. Verify cart shows product(s) with correct prices | ⬜ |
+| Add to cart | Item is added to cart | 1. Navigate to /products/cbd-oil-1<br>2. Add "Full Spectrum CBD Oil 1000mg" to cart<br>3. Verify cart shows the product with sale price $59.99 | ⬜ |
+| Update quantity | Cart updates quantity | 1. In cart, update "Full Spectrum CBD Oil 1000mg" quantity to 2<br>2. Verify subtotal updates to $119.98 | ⬜ |
 | Remove from cart | Item is removed | 1. Remove an item from cart<br>2. Verify item is removed and total updates | ⬜ |
 | View order history | Shows past orders | 1. Login as user@example.com<br>2. Navigate to order history<br>3. Verify orders "order1" and "order3" appear | ⬜ |
-| Order detail | Order details display | 1. View details for "order1"<br>2. Verify it shows 2× "Purple Kush Hemp Flower" ($29.99) and 1× "Full Spectrum CBD Oil" ($89.99)<br>3. Total should be $164.97 | ⬜ |
+| Order detail | Order details display | 1. View details for "order1"<br>2. Verify it shows 2× "Purple Kush Hemp Flower" ($29.99) and 1× "Full Spectrum CBD Oil 1000mg" ($59.99)<br>3. Total should be $119.97 | ⬜ |
 
 ## Testing Notes
 

@@ -50,9 +50,19 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          NODE_ENV: production
 
       - name: Add .nojekyll file
         run: touch out/.nojekyll
+
+      - name: Copy assets to correct paths
+        run: |
+          # Ensure public files are correctly copied
+          mkdir -p out/hempnotyx
+          if [ -d "public" ]; then
+            cp -r public/* out/hempnotyx/ || true
+          fi
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
